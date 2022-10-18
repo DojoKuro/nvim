@@ -1,3 +1,3 @@
-# nvim
-
-my own nvim configuration
+# KURO'S NVIM
+***
+my own nvim configuration!
