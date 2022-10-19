@@ -13,7 +13,16 @@ return require('packer').startup(
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use { 'williamboman/nvim-lsp-installer' }
     -- Lspconfig
-    use({ "neovim/nvim-lspconfig" })
+    use { 'neovim/nvim-lspconfig' }
+    use 'hrsh7th/nvim-cmp'
+    --  snippet
+    use 'hrsh7th/vim-vsnip'
+    use 'hrsh7th/cmp-vsnip'
+    use 'hrsh7th/cmp-nvim-lsp' -- { name = nvim_lsp }
+    use 'hrsh7th/cmp-buffer' -- { name = 'buffer' },
+    use 'hrsh7th/cmp-path' -- { name = 'path' }
+    use 'hrsh7th/cmp-cmdline' -- { name = 'cmdline' }
+    use 'rafamadriz/friendly-snippets'
 
   end,
     config = {
