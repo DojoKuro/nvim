@@ -1,48 +1,178 @@
-return require('packer').startup(
-  { function(use)
-    -- Packer can manage itself
-    use 'wbthomason/packer.nvim'
-    use 'folke/tokyonight.nvim'
-    use { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons' }
-    use { 'akinsho/bufferline.nvim', requires = { 'kyazdani42/nvim-web-devicons', 'moll/vim-bbye' } }
-    use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
-    use 'arkav/lualine-lsp-progress'
-    use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-    use 'glepnir/dashboard-nvim'
-    use 'ahmedkhalf/project.nvim'
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-    use { 'williamboman/nvim-lsp-installer' }
-    -- Lspconfig
-    use { 'neovim/nvim-lspconfig' }
-    use 'hrsh7th/nvim-cmp'
-    --  snippet
-    use 'hrsh7th/vim-vsnip'
-    use 'hrsh7th/cmp-vsnip'
-    use 'hrsh7th/cmp-nvim-lsp' -- { name = nvim_lsp }
-    use 'hrsh7th/cmp-buffer' -- { name = 'buffer' },
-    use 'hrsh7th/cmp-path' -- { name = 'path' }
-    use 'hrsh7th/cmp-cmdline' -- { name = 'cmdline' }
-    use 'rafamadriz/friendly-snippets'
-    use 'onsails/lspkind-nvim'
-    use 'lukas-reineke/indent-blankline.nvim'
-    use { 'jose-elias-alvarez/null-ls.nvim', requires = 'nvim-lua/plenary.nvim' }
+local M = {}
 
-  end,
-    config = {
-      display = {
-        open_fn = function()
-          return require('packer.util').float({ border = 'single' })
-        end,
-      },
+function M.setup()
+  -- Indicate first time installation
+  local packer_bootstrap = false
+
+  -- packer.nvim configuration
+  local conf = {
+    profile = {
+      enable = true,
+      threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
     },
+    display = {
+      open_fn = function()
+        return require("packer.util").float { border = "rounded" }
+      end,
+    },
+  }
 
-    pcall(
-      vim.cmd,
-      [[
-    augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-    augroup end
-  ]]
-    )
-  })
+  -- Check if packer.nvim is installed
+  -- Run PackerCompile if there are changes in this file
+  local function packer_init()
+    local fn = vim.fn
+    local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+    if fn.empty(fn.glob(install_path)) > 0 then
+      packer_bootstrap = fn.system {
+        "git",
+        "clone",
+        "--depth",
+        "1",
+        "https://github.com/wbthomason/packer.nvim",
+        install_path,
+      }
+      vim.cmd [[packadd packer.nvim]]
+    end
+    vim.cmd "autocmd BufWritePost plugins.lua source <afile> | PackerCompile"
+  end
+
+  -- Plugins
+  local function plugins(use)
+    use { "wbthomason/packer.nvim" }
+
+    -- Colorscheme
+    use {
+      "folke/tokyonight.nvim",
+      config = function()
+        vim.cmd "colorscheme tokyonight"
+      end,
+    }
+
+    -- WhichKey
+    use {
+       "folke/which-key.nvim",
+       event = "VimEnter",
+       config = function()
+         require("config.whichkey").setup()
+       end,
+    }
+
+    -- IndentLine
+    use {
+      "lukas-reineke/indent-blankline.nvim",
+      event = "BufReadPre",
+      config = function()
+        require("config.indentblankline").setup()
+      end,
+    }
+
+    -- Startup screen
+    use {
+      "goolord/alpha-nvim",
+      config = function()
+        require("config.alpha").setup()
+      end,
+    }
+
+    -- Git
+    use {
+      "TimUntersberger/neogit",
+      cmd = "Neogit",
+      requires = "nvim-lua/plenary.nvim",
+      config = function()
+        require("config.neogit").setup()
+      end,
+    }
+
+    -- Load only when require
+    use { "nvim-lua/plenary.nvim", module = "plenary" }
+
+    -- Better icons
+    use {
+      "kyazdani42/nvim-web-devicons",
+      module = "nvim-web-devicons",
+      config = function()
+        require("nvim-web-devicons").setup { default = true }
+      end,
+    }
+
+    -- Better Comment
+    use {
+      "numToStr/Comment.nvim",
+      opt = true,
+      keys = { "gc", "gcc", "gbc" },
+      config = function()
+        require("Comment").setup {}
+      end,
+    }
+
+    -- Easy hopping
+    use {
+      "phaazon/hop.nvim",
+      cmd = { "HopWord", "HopChar1" },
+      config = function()
+        require("hop").setup {}
+      end,
+    }
+
+    -- Easy motion
+    use {
+      "ggandor/lightspeed.nvim",
+      keys = { "s", "S", "f", "F", "t", "T" },
+      config = function()
+        require("lightspeed").setup {}
+      end,
+    }
+
+    -- Markdown
+    use {
+      "iamcco/markdown-preview.nvim",
+      run = function()
+	vim.fn["mkdp#util#install"]()
+      end,
+      ft = "markdown",
+      cmd = { "MarkdownPreview" },
+    }
+
+    -- Status line
+    use {
+      "nvim-lualine/lualine.nvim",
+      event = "VimEnter",
+      config = function()
+        require("config.lualine").setup()
+      end,
+      requires = { "nvim-web-devicons" },
+    }
+
+    -- Treesitter
+    use {
+      "nvim-treesitter/nvim-treesitter",
+       run = ":TSUpdate",
+       config = function()
+         require("config.treesitter").setup()
+       end,
+    }
+    use {
+      "SmiteshP/nvim-gps",
+      requires = "nvim-treesitter/nvim-treesitter",
+      module = "nvim-gps",
+      config = function()
+        require("nvim-gps").setup()
+      end,
+    }
+
+    -- Bootstrap Neovim
+    if packer_bootstrap then
+      print "Restart Neovim required after installation!"
+      require("packer").sync()
+    end
+  end
+
+  packer_init()
+
+  local packer = require "packer"
+  packer.init(conf)
+  packer.startup(plugins)
+end
+
+return M

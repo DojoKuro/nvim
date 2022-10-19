@@ -1,5 +1,1 @@
-require('config')
-require('plugins')
-require('colorscheme')
-require('plugin-config')
-require('lsp')
+require("plugins").setup()

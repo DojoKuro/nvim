@@ -1,5 +1,3 @@
-# KURO'S NVIM
-
-***
-
-my own nvim configuration!
+# hello world
+- test
+- helloworld
