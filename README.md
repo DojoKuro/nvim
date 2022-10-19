@@ -3,5 +3,3 @@
 ***
 
 my own nvim configuration!
-
-test
