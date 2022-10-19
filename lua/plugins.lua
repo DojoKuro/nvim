@@ -8,6 +8,8 @@ return require('packer').startup(
     use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
     use 'arkav/lualine-lsp-progress'
     use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+    use 'glepnir/dashboard-nvim'
+    use 'ahmedkhalf/project.nvim'
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use { 'williamboman/nvim-lsp-installer' }
     -- Lspconfig
