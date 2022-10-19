@@ -23,6 +23,9 @@ return require('packer').startup(
     use 'hrsh7th/cmp-path' -- { name = 'path' }
     use 'hrsh7th/cmp-cmdline' -- { name = 'cmdline' }
     use 'rafamadriz/friendly-snippets'
+    use 'onsails/lspkind-nvim'
+    use 'lukas-reineke/indent-blankline.nvim'
+    use { 'jose-elias-alvarez/null-ls.nvim', requires = 'nvim-lua/plenary.nvim' }
 
   end,
     config = {
