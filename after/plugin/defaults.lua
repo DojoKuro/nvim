@@ -1,12 +1,14 @@
 local api = vim.api
 local g = vim.g
 local opt = vim.opt
+local bo = vim.bo
 
 -- Remap leader and local leader to <Space>
 api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 g.mapleader = " "
 g.maplocalleader = " "
 
+opt.backup = false
 opt.termguicolors = true -- Enable colors in terminal
 opt.hlsearch = true --Set highlight on search
 opt.number = true --Make line numbers default
@@ -20,6 +22,13 @@ opt.updatetime = 250 --Decrease update time
 opt.signcolumn = "yes" -- Always show sign column
 opt.clipboard = "unnamedplus" -- Access system clipboard
 opt.timeoutlen = 300
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.shiftround = true
+opt.list = true
+opt.listchars = "space:·"
+
+bo.tabstop = 2
 
 -- Highlight on yank
 vim.cmd [[

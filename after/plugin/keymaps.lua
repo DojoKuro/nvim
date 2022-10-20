@@ -19,8 +19,6 @@ keymap("i", "<C-h>", "<ESC>I", default_opts)
 keymap("i", "<C-l>", "<ESC>A", default_opts)
 
 -- code fold
-keymap("n", "<leader>h", "zc", default_opts)
-keymap("n", "<leader>l", "zo", default_opts)
 keymap("n", "gg=G", "gg<S-v>G", default_opts)
 
 -- Center search results
@@ -44,18 +42,14 @@ keymap('n', '<C-d>', '20j', default_opts)
 -- Paste over currently selected text without yanking it
 keymap("v", "p", '"_dP', default_opts)
 
--- Switch buffer
-keymap("n", "<S-h>", ":bprevious<CR>", default_opts)
-keymap("n", "<S-l>", ":bnext<CR>", default_opts)
-
 -- Cancel search highlighting with ESC
 keymap("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", default_opts)
 
 -- split windows
-keymap("n", "<leader>sv", ":vsp<cr>", default_opts)
-keymap("n", "<leader>sh", ":sp<cr>", default_opts)
-keymap("n", "<leader>sc", "<C-w>c", default_opts)
-keymap("n", "<leader>so", "<C-w>o", default_opts)
+-- keymap("n", "<leader>sv", ":vsp<cr>", default_opts)
+-- keymap("n", "<leader>sh", ":sp<cr>", default_opts)
+-- keymap("n", "<leader>sc", "<C-w>c", default_opts)
+-- keymap("n", "<leader>so", "<C-w>o", default_opts)
 keymap("n", "<A-h>", "<C-w>h", default_opts)
 keymap("n", "<A-j>", "<C-w>j", default_opts)
 keymap("n", "<A-k>", "<C-w>k", default_opts)
@@ -72,8 +66,8 @@ keymap("n", "<Up>", ":resize -1<CR>", default_opts)
 keymap("n", "<Down>", ":resize +1<CR>", default_opts)
 
 -- terminal
-keymap("n", "<leader>t", ":sp | terminal<CR>", default_opts)
-keymap("n", "<leader>vt", ":vsp | terminal<CR>", default_opts)
+-- keymap("n", "<leader>t", ":sp | terminal<CR>", default_opts)
+-- keymap("n", "<leader>vt", ":vsp | terminal<CR>", default_opts)
 keymap("t", "<Esc>", "<C-\\><C-n>", default_opts)
 keymap("t", "<A-h>", [[ <C-\><C-N><C-w>h ]], default_opts)
 keymap("t", "<A-j>", [[ <C-\><C-N><C-w>j ]], default_opts)
@@ -87,21 +81,3 @@ keymap("n", "<A-m>", ":NvimTreeToggle<cr>", default_opts)
 keymap("n", "<C-h>", ":BufferLineCyclePrev<cr>", default_opts)
 keymap("n", "<C-l>", ":BufferLineCycleNext<cr>", default_opts)
 keymap("n", "<C-w>", ":bdelete<cr>", default_opts)
-
-pluginKeys.nvimTreeList = {
-  { key = {"l", "o", "<2-LeftMouse>"}, action = "edit" },
-  { key = "v", action = "vsplit" },
-  { key = "h", action = "split" },
-  { key = "i", action = "toggle_custom" }, -- 对应 filters 中的 custom (node_modules)
-  { key = ".", action = "toggle_dotfiles" }, -- Hide (dotfiles)
-  { key = "<F5>", action = "refresh" },
-  { key = "a", action = "create" },
-  { key = "d", action = "remove" },
-  { key = "r", action = "rename" },
-  { key = "x", action = "cut" },
-  { key = "c", action = "copy" },
-  { key = "p", action = "paste" },
-  { key = "s", action = "system_open" },
-}
-
-return pluginKeys
