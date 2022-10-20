@@ -1,15 +1,14 @@
 local keymap = vim.api.nvim_set_keymap
 local default_opts = { noremap = true, silent = true }
 local expr_opts = { noremap = true, expr = true, silent = true }
+-- Plugins key
+local pluginKeys = {}
 
 -- Better escape using jk in insert and terminal mode
 keymap("i", "jk", "<ESC>", default_opts)
 keymap("t", "jk", "<C-\\><C-n>", default_opts)
 keymap("i", "kj", "<ESC>", default_opts)
 keymap("t", "kj", "<C-\\><C-n>", default_opts)
-
--- Quit
-keymap("n", "<leader>q", ":q<CR>", default_opts)
 
 -- Save
 keymap("i", "<C-s>", "<ESC>:w<CR>", default_opts)
@@ -80,3 +79,29 @@ keymap("t", "<A-h>", [[ <C-\><C-N><C-w>h ]], default_opts)
 keymap("t", "<A-j>", [[ <C-\><C-N><C-w>j ]], default_opts)
 keymap("t", "<A-k>", [[ <C-\><C-N><C-w>k ]], default_opts)
 keymap("t", "<A-l>", [[ <C-\><C-N><C-w>l ]], default_opts)
+
+-- Nvimtree
+keymap("n", "<A-m>", ":NvimTreeToggle<cr>", default_opts)
+
+-- Bufferline
+keymap("n", "<C-h>", ":BufferLineCyclePrev<cr>", default_opts)
+keymap("n", "<C-l>", ":BufferLineCycleNext<cr>", default_opts)
+keymap("n", "<C-w>", ":bdelete<cr>", default_opts)
+
+pluginKeys.nvimTreeList = {
+  { key = {"l", "o", "<2-LeftMouse>"}, action = "edit" },
+  { key = "v", action = "vsplit" },
+  { key = "h", action = "split" },
+  { key = "i", action = "toggle_custom" }, -- 对应 filters 中的 custom (node_modules)
+  { key = ".", action = "toggle_dotfiles" }, -- Hide (dotfiles)
+  { key = "<F5>", action = "refresh" },
+  { key = "a", action = "create" },
+  { key = "d", action = "remove" },
+  { key = "r", action = "rename" },
+  { key = "x", action = "cut" },
+  { key = "c", action = "copy" },
+  { key = "p", action = "paste" },
+  { key = "s", action = "system_open" },
+}
+
+return pluginKeys
