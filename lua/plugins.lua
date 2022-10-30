@@ -15,7 +15,6 @@ function M.setup()
       end,
     },
   }
-
   -- Check if packer.nvim is installed
   -- Run PackerCompile if there are changes in this file
   local function packer_init()
@@ -46,6 +45,7 @@ function M.setup()
         vim.cmd "colorscheme tokyonight"
       end,
     }
+    use { "tpope/vim-surround" }
 
     -- WhichKey
     use {
@@ -127,7 +127,7 @@ function M.setup()
     use {
       "iamcco/markdown-preview.nvim",
       run = function()
-	vim.fn["mkdp#util#install"]()
+        vim.fn["mkdp#util#install"]()
       end,
       ft = "markdown",
       cmd = { "MarkdownPreview" },
@@ -159,7 +159,9 @@ function M.setup()
          require("config.treesitter").setup()
        end,
        requires = {
-         { "nvim-treesitter/nvim-treesitter-textobjects" },
+         { "nvim-treesitter/nvim-treesitter-textobjects",
+         "p00f/nvim-ts-rainbow"
+         },
        },
     }
 
@@ -233,6 +235,50 @@ function M.setup()
       event = "InsertEnter",
       config = function()
         require("nvim-ts-autotag").setup { enable = true }
+      end,
+    }
+
+    -- telescope
+    use {
+      "nvim-telescope/telescope.nvim",
+      opt = true,
+      config = function()
+        require("config.telescope").setup()
+      end,
+      cmd = { "Telescope" },
+      module = "telescope",
+      keys = { "<leader>f", "<leader>p" },
+      wants = {
+        "plenary.nvim",
+        "popup.nvim",
+        "telescope-fzf-native.nvim",
+        "telescope-project.nvim",
+        "telescope-repo.nvim",
+        "telescope-file-browser.nvim",
+        "project.nvim",
+      },
+      requires = {
+        "nvim-lua/popup.nvim",
+        "nvim-lua/plenary.nvim",
+        { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+        "nvim-telescope/telescope-project.nvim",
+        "cljoly/telescope-repo.nvim",
+        "nvim-telescope/telescope-file-browser.nvim",
+        {
+          "ahmedkhalf/project.nvim",
+          config = function()
+            require("project_nvim").setup {}
+          end,
+        },
+      },
+    }
+
+    -- code runner
+    use { 
+      "CRAG666/code_runner.nvim",
+      requires = "nvim-lua/plenary.nvim",
+      config = function()
+        require("config.coderunner").setup()
       end,
     }
 

@@ -9,6 +9,7 @@ g.mapleader = " "
 g.maplocalleader = " "
 
 opt.backup = false
+opt.cursorline = true
 opt.termguicolors = true -- Enable colors in terminal
 opt.hlsearch = true --Set highlight on search
 opt.number = true --Make line numbers default
@@ -24,11 +25,10 @@ opt.clipboard = "unnamedplus" -- Access system clipboard
 opt.timeoutlen = 300
 opt.tabstop = 2
 opt.softtabstop = 2
-opt.shiftround = true
+opt.shiftwidth = 2
+opt.expandtab = true
 opt.list = true
 opt.listchars = "space:·"
-
-bo.tabstop = 2
 
 -- Highlight on yank
 vim.cmd [[
