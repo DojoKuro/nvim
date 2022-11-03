@@ -1,4 +1,5 @@
 local M = {}
+
 function M.setup()
   -- Indicate first time installation
   local packer_bootstrap = false
@@ -47,13 +48,30 @@ function M.setup()
     }
     use { "tpope/vim-surround" }
 
+    -- gitsigns
+    use {
+      "lewis6991/gitsigns.nvim",
+      config = function()
+        require("gitsigns").setup()
+      end
+    }
+
+    -- -- Notification
+    -- use {
+    --   "rcarriga/nvim-notify",
+    --   event = "VimEnter",
+    --   config = function()
+    --     vim.notify = require "notify"
+    --   end,
+    -- }
+
     -- WhichKey
     use {
-       "folke/which-key.nvim",
-       event = "VimEnter",
-       config = function()
-         require("config.whichkey").setup()
-       end,
+      "folke/which-key.nvim",
+      event = "VimEnter",
+      config = function()
+        require("config.whichkey").setup()
+      end,
     }
 
     -- IndentLine
@@ -150,19 +168,20 @@ function M.setup()
         require("nvim-gps").setup()
       end,
     }
+    use("arkav/lualine-lsp-progress")
 
     -- Treesitter
     use {
       "nvim-treesitter/nvim-treesitter",
-       run = ":TSUpdate",
-       config = function()
-         require("config.treesitter").setup()
-       end,
-       requires = {
-         { "nvim-treesitter/nvim-treesitter-textobjects",
-         "p00f/nvim-ts-rainbow"
-         },
-       },
+      run = ":TSUpdate",
+      config = function()
+        require("config.treesitter").setup()
+      end,
+      requires = {
+        { "nvim-treesitter/nvim-treesitter-textobjects",
+          "p00f/nvim-ts-rainbow"
+        },
+      },
     }
 
     -- nvim-tree
@@ -203,9 +222,7 @@ function M.setup()
         "ray-x/cmp-treesitter",
         "hrsh7th/cmp-cmdline",
         "saadparwaiz1/cmp_luasnip",
-        "hrsh7th/cmp-calc",
-        "f3fora/cmp-spell",
-        "hrsh7th/cmp-emoji",
+        "hrsh7th/cmp-nvim-lsp",
         {
           "L3MON4D3/LuaSnip",
           wants = "friendly-snippets",
@@ -274,12 +291,29 @@ function M.setup()
     }
 
     -- code runner
-    use { 
+    use {
       "CRAG666/code_runner.nvim",
       requires = "nvim-lua/plenary.nvim",
       config = function()
         require("config.coderunner").setup()
       end,
+    }
+
+    use {
+      "neovim/nvim-lspconfig",
+      opt = true,
+      event = "VimEnter",
+      wants = { "nvim-lsp-installer", "lsp_signature.nvim", "cmp-nvim-lsp", "vim-illuminate", "null-ls.nvim" }, -- for nvim-cmp
+      -- wants = { "nvim-lsp-installer", "lsp_signature.nvim", "coq_nvim" },  -- for coq.nvim
+      config = function()
+        require("config.lsp").setup()
+      end,
+      requires = {
+        "williamboman/nvim-lsp-installer",
+        "ray-x/lsp_signature.nvim",
+        "RRethy/vim-illuminate",
+        "jose-elias-alvarez/null-ls.nvim",
+      },
     }
 
     -- Bootstrap Neovim
